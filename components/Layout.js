@@ -6,9 +6,7 @@ import data from '../utils/data';
 
 export default function Layout(props) {
     const data1 = data.data;
-
     // console.log(data1);
-
     return (
         <>
 
