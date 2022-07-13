@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import Link from 'next/link';
 import ShowModel from '../../components/Model/showModel';
-
+import Head from 'next/head'
 import data from '../../utils/data';
 
 export default function ModelScreen() {
@@ -15,6 +15,9 @@ export default function ModelScreen() {
 
     return (
         <div>
+            <Head>
+                <title>{product.attributes.name}</title>
+            </Head>
             <header>
                 <nav className="flex h-12 items-center px-4 justify-between shadow-md">
                     <Link href="/">

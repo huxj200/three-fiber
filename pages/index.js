@@ -5,9 +5,9 @@ export default function Home() {
 
   return (
     <div >
-      <Layout>{{ title: "目录" }}
+      <Layout title={"目录"} isshow={true}>
       </Layout>
 
-    </div>
+    </div >
   )
 }
