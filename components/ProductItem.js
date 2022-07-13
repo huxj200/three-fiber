@@ -8,7 +8,8 @@ export default function ProductItem({ product }) {
             <Link href={`/product/${product.attributes.slug}`}>
                 <a>
                     <img
-                        src={product.attributes.image}
+                        src={product.attributes.imgurn}
+                        // src={"https://study-fiber.oss-cn-shanghai.aliyuncs.com/CarBody.png"}
                         alt={product.attributes.name}
                         className="rounded shadow w-42 h-24"
                     />

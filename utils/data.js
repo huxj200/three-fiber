@@ -1,5 +1,14 @@
 // eslint-disable-next-line no-unused-vars
+import bcrypt from 'bcryptjs'
+
 const data = {
+    users: [
+        {
+            name: 'John',
+            email: 'huxj@qq.com',
+            password: bcrypt.hashSync('admin'),
+        },
+    ],
     "data": [
         {
             "id": 1,
