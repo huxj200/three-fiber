@@ -1,12 +1,25 @@
+import { signOut, useSession } from 'next-auth/react';
 import Head from 'next/head'
 import React from 'react'
 import Link from 'next/link';
+import Cookies from 'js-cookie'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import ProductItem from '../components/ProductItem';
 import data from '../utils/data';
 
+
 export default function Layout({ title, children, isshow }) {
+
+    const { status, data: session } = useSession();
+
     const data1 = data.data;
     // console.log(data1);
+    const logoutClickHandler = () => {
+        Cookies.remove('cart')
+        signOut({ callbackUrl: '/' })
+    }
+
     return (
         <>
 
@@ -14,6 +27,7 @@ export default function Layout({ title, children, isshow }) {
                 <title>{title}</title>
             </Head>
 
+            <ToastContainer position='bottom-center' limit={1} />
 
             <div className='flex min-h-screen flex-col justify-between'>
                 <header>
@@ -22,9 +36,25 @@ export default function Layout({ title, children, isshow }) {
                             <a className="text-lg font-bold">{'主目录'}</a>
                         </Link>
                         <div>
-                            <Link href="/login">
-                                <a className="p-2">Login</a>
-                            </Link>
+                            {status === 'loading' ? (
+                                'Loading'
+                            ) : session?.user ?
+                                (
+                                    <a className="dropdown-link" href="#" onClick={logoutClickHandler}>
+                                        Logout{" "}
+                                    </a>
+                                )
+                                : <></>}
+
+                            {status === 'loading' ? (
+                                'Loading'
+                            ) : session?.user ? (
+                                session.user.name
+                            ) : (
+                                <Link href="/login">
+                                    <a className="p-2"> Login</a>
+                                </Link>
+                            )}
                         </div>
                     </nav>
                 </header>

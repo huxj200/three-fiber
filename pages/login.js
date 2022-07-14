@@ -1,24 +1,52 @@
-import { useRouter } from 'next/router';
 import Link from 'next/link';
-import React from 'react';
+import { signIn, useSession } from 'next-auth/react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Layout from '../components/Layout';
+import { toast } from 'react-toastify';
+import { getError } from '../utils/error';
+import { useRouter } from 'next/router';
 
 export default function LoginScreen() {
-    const router = useRouter();
 
+    const { data: session } = useSession();
+
+    const router = useRouter();
+    const { redirect } = router.query;
+
+    useEffect(() => {
+        if (session?.user) {
+            router.push(redirect || '/');
+        }
+    }, [router, session, redirect]);
 
     const {
         handleSubmit,
         register,
         formState: { errors },
     } = useForm();
-    const submitHandler = ({ email, password }) => {
-        console.log(email, password);
-        if (email === "huxj@qq.com" && password === "admin") {
-            console.log(email, password);
-            router.push('/');
+
+    const submitHandler = async ({ email, password }) => {
+        try {
+            const result = await signIn('credentials', {
+                redirect: false,
+                email,
+                password,
+            });
+            if (result.error) {
+                toast.error(result.error);
+            }
+        } catch (err) {
+            toast.error(getError(err));
         }
+
+
+
+        // console.log(email, password);
+        // if (email === "huxj@qq.com" && password === "admin") {
+        //     console.log(email, password);
+        //     router.push('/');
+        // }
     };
     return (
         <Layout title="Login">
